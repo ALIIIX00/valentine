@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>День Святого Валентина</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            background-color: pink;
+        }
+        #question {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .btn-container {
+            position: relative;
+        }
+        .btn {
+            font-size: 20px;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        #yes {
+            background-color: red;
+            color: white;
+        }
+        #no {
+            background-color: gray;
+            color: white;
+            position: absolute;
+        }
+        #result {
+            font-size: 30px;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="question">Я тебе нравлюсь?</div>
+    <div class="btn-container">
+        <button id="yes" class="btn" onclick="showLove()">Да</button>
+        <button id="no" class="btn" onclick="moveNo()">Нет</button>
+    </div>
+    <div id="result"></div>
+
+    <script>
+        let noClickCount = 0;
+        function moveNo() {
+            noClickCount++;
+            if (noClickCount >= 5) {
+                document.getElementById('result').innerHTML = "😢";
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('question').style.display = 'none';
+                document.querySelector('.btn-container').style.display = 'none';
+                return;
+            }
+            let button = document.getElementById('no');
+            let maxX = window.innerWidth - button.clientWidth - 50;
+            let maxY = window.innerHeight - button.clientHeight - 50;
+            let newX = Math.random() * maxX;
+            let newY = Math.random() * maxY;
+            button.style.left = `${newX}px`;
+            button.style.top = `${newY}px`;
+
+            let yesButton = document.getElementById('yes');
+            let currentSize = parseInt(window.getComputedStyle(yesButton).fontSize);
+            yesButton.style.fontSize = `${currentSize + 5}px`;
+        }
+
+        function showLove() {
+            document.getElementById('result').innerHTML = '<h2>❤️ Ты мне тоже очень нравишься! ❤️</h2>';
+            document.body.style.backgroundImage = "url('755cc395c39eb0ab01edd38cd9391413.jpg')";
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('question').style.display = 'none';
+            document.querySelector('.btn-container').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
