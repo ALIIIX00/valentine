@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>День Святого Валентина</title>
     <style>
+        @keyframes backgroundAnimation {
+            0% { background-color: pink; }
+            50% { background-color: lightcoral; }
+            100% { background-color: pink; }
+        }
+        @keyframes floatHearts {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+        }
         body {
             display: flex;
             justify-content: center;
@@ -12,7 +21,9 @@
             height: 100vh;
             flex-direction: column;
             font-family: Arial, sans-serif;
-            background-color: pink;
+            animation: backgroundAnimation 5s infinite alternate;
+            overflow: hidden;
+            position: relative;
         }
         #question {
             font-size: 24px;
@@ -44,6 +55,12 @@
             margin-top: 20px;
             display: none;
         }
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            color: red;
+            animation: floatHearts 4s linear infinite;
+        }
     </style>
 </head>
 <body>
@@ -52,13 +69,13 @@
         <button id="yes" class="btn" onclick="showLove()">Да</button>
         <button id="no" class="btn" onclick="moveNo()">Нет</button>
     </div>
-    <div id="result"></div>
+    <h2 id="result"></h2>
 
     <script>
         let noClickCount = 0;
         function moveNo() {
             noClickCount++;
-            if (noClickCount >= 5) {
+            if (noClickCount >= 3) {
                 document.getElementById('result').innerHTML = "😢";
                 document.getElementById('result').style.display = 'block';
                 document.getElementById('question').style.display = 'none';
@@ -79,11 +96,24 @@
         }
 
         function showLove() {
-            document.getElementById('result').innerHTML = '<h2>❤️ Ты мне тоже очень нравишься! ❤️</h2>';
-            document.body.style.backgroundImage = "url('755cc395c39eb0ab01edd38cd9391413.jpg')";
+            document.getElementById('result').innerHTML = "❤️ Ты мне тоже очень нравишься! ❤️";
             document.getElementById('result').style.display = 'block';
             document.getElementById('question').style.display = 'none';
             document.querySelector('.btn-container').style.display = 'none';
+            generateHearts();
+        }
+
+        function generateHearts() {
+            for (let i = 0; i < 20; i++) {
+                let heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * window.innerWidth + 'px';
+                heart.style.bottom = '-30px';
+                heart.style.animationDuration = (2 + Math.random() * 3) + 's';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 100000);
+            }
         }
     </script>
 </body>
